@@ -50,7 +50,9 @@ typedef enum {
     FT_VFS_FILE, // Обычный файл
     FT_DEVICE,   // Символьное устройство
     FT_PIPE_READ,
-    FT_PIPE_WRITE
+    FT_PIPE_WRITE,
+    FT_UNIX_SOCKET,
+    FT_INET_SOCKET
 } file_type_t;
 
 typedef struct file {
@@ -63,5 +65,14 @@ extern file_t fd_table[32];
 
 int32_t vfs_close(int fd);
 int32_t vfs_pipe(int32_t pipefd[2]);
+int32_t vfs_socket(int domain, int type, int protocol);
+int32_t vfs_socket_bind(int fd, const void *address, uint32_t address_length);
+int32_t vfs_socket_listen(int fd, int backlog);
+int32_t vfs_socket_connect(int fd, const void *address, uint32_t address_length);
+int32_t vfs_socket_accept(int fd);
+int32_t vfs_socket_send(int fd, const void *buffer, uint32_t length);
+int32_t vfs_socket_recv(int fd, void *buffer, uint32_t length);
+int32_t vfs_socket_sendto(int fd, const void *buffer, uint32_t length, const void *address, uint32_t address_length);
+int32_t vfs_socket_recvfrom(int fd, void *buffer, uint32_t length, void *address, uint32_t *address_length);
 
 #endif

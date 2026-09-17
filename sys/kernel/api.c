@@ -29,6 +29,7 @@ int32_t k_sys_write(int fd, const char* buf, uint32_t count) {
         return vfs_write(fd, buf, count);
     }
     if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_PIPE_WRITE) return vfs_write(fd, buf, count);
+    if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_UNIX_SOCKET) return vfs_write(fd, buf, count);
     return -9; // -EBADF
 }
 
@@ -69,6 +70,8 @@ int32_t k_sys_read(int fd, char* buf, uint32_t count) {
         return vfs_read(fd, buf, count);
     }
     if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_PIPE_READ) return vfs_read(fd, buf, count);
+    if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_UNIX_SOCKET) return vfs_socket_recv(fd, buf, count);
+    if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_INET_SOCKET) return vfs_socket_recv(fd, buf, count);
     return -9; // -EBADF
 }
 

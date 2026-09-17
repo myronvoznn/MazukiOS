@@ -56,6 +56,7 @@ extern void puts_com1(const char* s);
 #define MASIX_EXIT_GROUP      252
 #define MASIX_SET_TID_ADDRESS 258
 #define MASIX_PIPE2           331
+#define MASIX_SOCKETCALL      102
 
 #define LINUX_EBADF           9
 #define LINUX_ENOSYS          38
@@ -119,6 +120,24 @@ uint32_t syscall_handler_c(struct syscall_regs* regs) {
         case MASIX_PIPE:
         case MASIX_PIPE2:
             return vfs_pipe((int32_t*)regs->ebx);
+
+        case MASIX_SOCKETCALL:
+        {
+            uint32_t *args = (uint32_t*)regs->ebx;
+            if (!args) return -14;
+            switch (regs->ecx) {
+                case 1: return vfs_socket(args[0], args[1], args[2]);
+                case 2: return vfs_socket_bind(args[0], (const void*)args[1], args[2]);
+                case 3: return vfs_socket_connect(args[0], (const void*)args[1], args[2]);
+                case 4: return vfs_socket_listen(args[0], args[1]);
+                case 5: return vfs_socket_accept(args[0]);
+                case 9: return vfs_socket_send(args[0], (const void*)args[1], args[2]);
+                case 10: return vfs_socket_recv(args[0], (void*)args[1], args[2]);
+                case 11: return vfs_socket_sendto(args[0], (const void*)args[1], args[2], (const void*)args[4], args[5]);
+                case 12: return vfs_socket_recvfrom(args[0], (void*)args[1], args[2], (void*)args[4], (uint32_t*)args[5]);
+                default: return -38;
+            }
+        }
 
         case MASIX_BRK:
         {

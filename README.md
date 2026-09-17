@@ -8,6 +8,8 @@ MazukiOS — это независимая операционная систем
 - **Masix Kernel**: Незавимое ядро написанное с нуля.
 - **Userland (world)**: TTY и базовая оболочка на C.
 - **VFS и IPC**: `/proc`, `/dev` (devtmpfs), `pipe` и `pipe2` доступны через Linux-подобные системные вызовы.
+- **Unix sockets**: поддерживается `AF_UNIX` + `SOCK_STREAM` через Linux i386 `socketcall`: bind, listen, connect, accept, send и recv.
+- **Loopback networking**: базовый `AF_INET` + `SOCK_DGRAM` UDP поддерживает bind, connect, sendto и recvfrom для `127.0.0.1`.
 - **Инфраструктура**: Это монорепозиторий как и для OS (MazukiOS) так и для ядра **Masix**, .
 
 ---
