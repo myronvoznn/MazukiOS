@@ -30,6 +30,7 @@ extern void puts_com1(const char* s);
 #define MASIX_WRITE           4
 #define MASIX_OPEN            5
 #define MASIX_CLOSE           6
+#define MASIX_PIPE            42
 #define MASIX_EXECVE          11
 #define MASIX_GETPID          20
 #define MASIX_BRK             45
@@ -54,6 +55,7 @@ extern void puts_com1(const char* s);
 
 #define MASIX_EXIT_GROUP      252
 #define MASIX_SET_TID_ADDRESS 258
+#define MASIX_PIPE2           331
 
 #define LINUX_EBADF           9
 #define LINUX_ENOSYS          38
@@ -105,33 +107,18 @@ uint32_t syscall_handler_c(struct syscall_regs* regs) {
                 return k_sys_read(fd, user_buf, count);
             }
 
-            struct fd_entry {
-                int type;
-                uint32_t offset;
-                void* private_data;
-            };
-
-            // extern struct fd_entry fd_table[32];
-
             if (fd >= 32 || fd_table[fd].type == 0) { // FT_EMPTY
                 return -9; // -EBADF
             }
-
-            vfs_node_t* node = (vfs_node_t*)fd_table[fd].private_data;
-
-            if (node && node->read != NULL) {
-                int32_t res = node->read(node, fd_table[fd].offset, count, (uint8_t*)user_buf);
-                if (res > 0) {
-                    fd_table[fd].offset += res;
-                }
-                return res;
-            }
-
-            return 0;
+            return vfs_read(fd, user_buf, count);
         }
 
         case MASIX_WRITE:
             return k_sys_write(regs->ebx, (const char*)regs->ecx, regs->edx);
+
+        case MASIX_PIPE:
+        case MASIX_PIPE2:
+            return vfs_pipe((int32_t*)regs->ebx);
 
         case MASIX_BRK:
         {
@@ -269,7 +256,7 @@ uint32_t syscall_handler_c(struct syscall_regs* regs) {
         }
 
         case MASIX_CLOSE:
-            return 0;
+            return vfs_close(regs->ebx);
 
         case MASIX_GETCWD:
         {

@@ -48,7 +48,9 @@ typedef struct mountpoint {
 typedef enum {
     FT_EMPTY = 0,
     FT_VFS_FILE, // Обычный файл
-    FT_DEVICE    // Символьное устройство
+    FT_DEVICE,   // Символьное устройство
+    FT_PIPE_READ,
+    FT_PIPE_WRITE
 } file_type_t;
 
 typedef struct file {
@@ -58,5 +60,8 @@ typedef struct file {
 } file_t;
 
 extern file_t fd_table[32];
+
+int32_t vfs_close(int fd);
+int32_t vfs_pipe(int32_t pipefd[2]);
 
 #endif

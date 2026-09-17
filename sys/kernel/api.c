@@ -26,15 +26,9 @@ int32_t k_sys_write(int fd, const char* buf, uint32_t count) {
     }
 
     if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_VFS_FILE) {
-        vfs_node_t* node = (vfs_node_t*)fd_table[fd].private_data;
-        if (node && node->write) {
-            int32_t res = node->write(node, fd_table[fd].offset, count, (const uint8_t*)buf);
-            if (res > 0) {
-                fd_table[fd].offset += res;
-            }
-            return res;
-        }
+        return vfs_write(fd, buf, count);
     }
+    if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_PIPE_WRITE) return vfs_write(fd, buf, count);
     return -9; // -EBADF
 }
 
@@ -72,15 +66,9 @@ int32_t k_sys_read(int fd, char* buf, uint32_t count) {
     }
 
     if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_VFS_FILE) {
-        vfs_node_t* node = (vfs_node_t*)fd_table[fd].private_data;
-        if (node && node->read) {
-            int32_t res = node->read(node, fd_table[fd].offset, count, (uint8_t*)buf);
-            if (res > 0) {
-                fd_table[fd].offset += res;
-            }
-            return res;
-        }
+        return vfs_read(fd, buf, count);
     }
+    if (fd >= 3 && fd < 32 && fd_table[fd].type == FT_PIPE_READ) return vfs_read(fd, buf, count);
     return -9; // -EBADF
 }
 

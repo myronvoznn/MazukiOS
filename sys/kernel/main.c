@@ -14,6 +14,7 @@
 #include <pit.h>
 #include <panic.h>
 #include <framebuffer.h>
+#include <vfs.h>
 
 #include <stdint.h>
 #include <stddef.h>
@@ -227,6 +228,7 @@ void kernel_main(uint32_t magic, uint32_t addr) {
 
     init_serial();
     puts_com1("COM1 Successfully initialized!\n");
+    vfs_init();
 
     // asm volatile("sti");
     puts_com1("BEFORE JUMP\n");
