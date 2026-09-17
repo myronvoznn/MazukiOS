@@ -12,6 +12,8 @@
 #include <task.h>
 #include <stdint.h>
 
+extern void network_poll(void);
+
 static volatile uint32_t system_ticks = 0;
 
 extern void idt_register_handler(uint8_t vector, uint32_t handler_addr, uint8_t flags);
@@ -19,6 +21,7 @@ extern void write_tss(int num, uint16_t ss0, uint32_t esp0);
 
 void pit_handler_c(void) {
     system_ticks++;
+    network_poll();
 }
 
 __attribute__((naked)) void pit_handler_asm(void) {

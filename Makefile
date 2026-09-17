@@ -50,7 +50,7 @@ iso: $(BUILD_DIR)/mazukios.iso
 .PHONY: run
 run: iso
 	@echo "==== Запуск MazukiOS в QEMU ===="
-	$(QEMU) -cdrom $(BUILD_DIR)/mazukios.iso -m 256M -serial stdio -no-reboot -no-shutdown
+	$(QEMU) -cdrom $(BUILD_DIR)/mazukios.iso -m 256M -serial stdio -nic user,model=rtl8139 -no-reboot -no-shutdown
 
 $(BUILD_DIR)/mazukios.iso: $(BUILD_DIR)/kernel.elf $(INITRAMFS_IMG) $(GRUB_DIR)/grub.cfg
 	@echo "==== Создание ISO-образа с полноценной initramfs ===="

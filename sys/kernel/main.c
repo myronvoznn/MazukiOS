@@ -15,6 +15,7 @@
 #include <panic.h>
 #include <framebuffer.h>
 #include <vfs.h>
+#include <network.h>
 
 #include <stdint.h>
 #include <stddef.h>
@@ -229,6 +230,8 @@ void kernel_main(uint32_t magic, uint32_t addr) {
     init_serial();
     puts_com1("COM1 Successfully initialized!\n");
     vfs_init();
+    network_init();
+    if (network_available()) puts_com1("Masix: RTL8139 network device initialized.\n");
 
     // asm volatile("sti");
     puts_com1("BEFORE JUMP\n");
