@@ -85,7 +85,7 @@ int32_t k_sys_read(int fd, char* buf, uint32_t count) {
 }
 
 void sys_putc(char c) {
-    vga_putc(c);
+    tty_write_char(c);
 }
 
 void sys_cls(void) {

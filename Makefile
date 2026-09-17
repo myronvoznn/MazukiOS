@@ -109,6 +109,8 @@ $(GRUB_DIR)/grub.cfg:
 	@echo "==== Генерация конфигурации GRUB ===="
 	@echo 'set timeout=0' > $@
 	@echo 'set default=0' >> $@
+	@echo 'set gfxmode=1024x768x32' >> $@
+	@echo 'set gfxpayload=keep' >> $@
 	@echo '' >> $@
 	@echo 'menuentry "MazukiOS (LiveCD)" {' >> $@
 	@echo '    multiboot2 /boot/kernel.elf' >> $@

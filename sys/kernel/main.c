@@ -13,6 +13,7 @@
 #include <idt.h>
 #include <pit.h>
 #include <panic.h>
+#include <framebuffer.h>
 
 #include <stdint.h>
 #include <stddef.h>
@@ -246,12 +247,14 @@ void kernel_main(uint32_t magic, uint32_t addr) {
                 puts_com1("Masix: initramfs module located in memory.\n");
 
                 unpack_initramfs(initramfs_start, initramfs_size);
-                break;
             }
+            if (tag->type == 8) framebuffer_init((struct multiboot_tag_framebuffer*)tag);
 
             tag_ptr += ((tag->size + 7) & ~7);
         }
     }
+
+    if (framebuffer_available()) puts_com1("Masix: Linear framebuffer initialized.\n");
 
     extern void task_init(void);
     task_init();

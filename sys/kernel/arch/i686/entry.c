@@ -10,7 +10,7 @@
 #include <stdint.h>
 
 #define MULTIBOOT2_MAGIC 0xE85250D6
-#define MULTIBOOT2_HEADER_LEN 16
+#define MULTIBOOT2_HEADER_LEN 36
 
 __attribute__((section(".multiboot2"), used, aligned(8)))
 const uint32_t multiboot2_header[] = {
@@ -18,7 +18,8 @@ const uint32_t multiboot2_header[] = {
     0,                     // architecture (0 = i386)
     MULTIBOOT2_HEADER_LEN, // header length
     -(MULTIBOOT2_MAGIC + 0 + MULTIBOOT2_HEADER_LEN),
-    0, 8, 0                // end tag
+    5, 20, 0, 0, 0,
+    0, 8, 0, 0
 };
 
 extern void kernel_main(uint32_t magic, uint32_t addr);
