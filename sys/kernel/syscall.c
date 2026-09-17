@@ -9,6 +9,7 @@
  */
 #include <stdint.h>
 #include <stddef.h>
+#include <syscall.h>
 #include <vfs.h>
 #include <task.h>
 
@@ -22,71 +23,6 @@ extern void puts_com1(const char* s);
 //     void* iov_base;
 //     uint32_t iov_len;
 // };
-
-#define LINUX_RESTART_SYSCALL
-#define MASIX_EXIT            1
-#define MASIX_FORK            2
-#define MASIX_READ            3
-#define MASIX_WRITE           4
-#define MASIX_OPEN            5
-#define MASIX_CLOSE           6
-#define MASIX_PIPE            42
-#define MASIX_EXECVE          11
-#define MASIX_GETPID          20
-#define MASIX_BRK             45
-#define MASIX_IOCTL           54
-#define MASIX_FCNTL           55
-#define MASIX_GETDENTS        78
-#define MASIX_MUNMAP          91
-
-#define MASIX_FSTAT           108
-#define MASIX_MODIFY_LDT      123
-#define MASIX__LLSEEK         140
-#define MASIX_WRITEV          146
-#define MASIX_RT_SIGACTION    174
-
-#define MASIX_RT_SIGPROCMASK  175
-#define MASIX_GETCWD          183
-#define MASIX_UGETRLIMIT      191
-#define MASIX_MMAP2           192
-#define MASIX_FCNTL64         221
-#define MASIX_TKILL           238
-#define MASIX_SET_THREAD_AREA 243
-
-#define MASIX_EXIT_GROUP      252
-#define MASIX_SET_TID_ADDRESS 258
-#define MASIX_PIPE2           331
-#define MASIX_SOCKETCALL      102
-
-#define LINUX_EBADF           9
-#define LINUX_ENOSYS          38
-#define MASIX_GETGID          64
-#define MASIX_FSTAT64_ALT     147 // fstat64
-#define MASIX_STAT64          195
-#define MASIX_FSTAT64         197
-#define MASIX_GETUID          199
-#define MASIX_GETGID32        200
-#define MASIX_GETEGID         201
-#define MASIX_GETEUID         202
-#define MASIX_GETPGID         132
-#define MASIX_PSELECT6        308
-#define MASIX_PRLIMIT64       340
-#define MASIX_STATX           383
-#define MASIX_CLOCK_GETTIME64 403
-
-
-
-
-struct syscall_regs {
-    uint32_t edi;
-    uint32_t esi;
-    uint32_t ebp;
-    uint32_t esp;
-    uint32_t ebx;
-    uint32_t edx;
-    uint32_t ecx;
-    uint32_t eax;
-};
 
 uint32_t current_process_brk = 0x01100000;
 

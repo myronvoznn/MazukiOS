@@ -13,6 +13,8 @@ MazukiOS — это независимая операционная систем
 - **QEMU networking**: RTL8139 PCI-драйвер с polling RX/TX, ARP для `10.0.2.15` и простым UDP echo; `make run` подключает QEMU user networking.
 - **QoL devices**: devtmpfs также предоставляет `/dev/full` и `/dev/random`.
 - **Driver layout**: аппаратные драйверы находятся в `sys/kernel/drivers/`, а их интерфейсы подключаются через `<drivers/...h>`.
+- **Filesystem layout**: VFS, ramfs, procfs и devtmpfs находятся в `sys/kernel/fs/`, а их интерфейсы изолированы в `sys/kernel/fs/include/`.
+- **Syscall ABI**: номера Linux-подобных системных вызовов и `struct syscall_regs` вынесены в `sys/kernel/include/syscall.h`.
 - **Инфраструктура**: Это монорепозиторий как и для OS (MazukiOS) так и для ядра **Masix**, .
 
 ---

@@ -8,6 +8,7 @@
  * the Free Software Foundation; version 2 of the License.
  */
 #include <task.h>
+#include <syscall.h>
 #include <alloc.h>
 #include <string.h>
 
@@ -71,11 +72,6 @@ void schedule(void) {
     if (!current_task) return;
     current_task = current_task->next;
 }
-
-struct syscall_regs {
-    uint32_t edi; uint32_t esi; uint32_t ebp; uint32_t esp;
-    uint32_t ebx; uint32_t edx; uint32_t ecx; uint32_t eax;
-};
 
 int32_t task_fork(struct syscall_regs* regs) {
     task_t* child = (task_t*)malloc(sizeof(task_t));
