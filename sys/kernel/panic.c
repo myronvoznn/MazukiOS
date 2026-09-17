@@ -9,8 +9,8 @@
  */
 #include <stdint.h>
 #include <panic.h>
-#include <serial.h>
-#include <vga.h>
+#include <drivers/serial.h>
+#include <drivers/vga.h>
 #include <bsod.h>
 
 // extern void puts_com1(const char* s);

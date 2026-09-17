@@ -7,8 +7,8 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 2 of the License.
  */
-#include <keyboard.h>
-#include <io.h>
+#include <drivers/keyboard.h>
+#include <drivers/io.h>
 #include <stdint.h>
 
 #define KBD_DATA   0x60

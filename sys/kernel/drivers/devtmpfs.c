@@ -6,7 +6,9 @@ enum {
     DEV_NULL,
     DEV_ZERO,
     DEV_TTY,
-    DEV_CONSOLE
+    DEV_CONSOLE,
+    DEV_FULL,
+    DEV_RANDOM
 };
 
 static int32_t dev_null_read(vfs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
@@ -22,6 +24,26 @@ static int32_t dev_null_write(vfs_node_t *node, uint32_t offset, uint32_t size, 
 static int32_t dev_zero_read(vfs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
     (void)node; (void)offset;
     for (uint32_t i = 0; i < size; i++) buffer[i] = 0;
+    return size;
+}
+
+static int32_t dev_full_read(vfs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+    return dev_zero_read(node, offset, size, buffer);
+}
+
+static int32_t dev_full_write(vfs_node_t *node, uint32_t offset, uint32_t size, const uint8_t *buffer) {
+    (void)node; (void)offset; (void)size; (void)buffer;
+    return -28;
+}
+
+static uint32_t random_state = 0x4D617A75;
+
+static int32_t dev_random_read(vfs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer) {
+    (void)node; (void)offset;
+    for (uint32_t i = 0; i < size; i++) {
+        random_state = random_state * 1664525U + 1013904223U;
+        buffer[i] = (uint8_t)(random_state >> 24);
+    }
     return size;
 }
 
@@ -41,6 +63,8 @@ int32_t devtmpfs_open(const char *subpath, vfs_node_t *node) {
     if (strcmp(subpath, "zero") == 0) { strcpy(node->name, "zero"); node->internal_id = DEV_ZERO; node->read = dev_zero_read; return 0; }
     if (strcmp(subpath, "tty") == 0) { strcpy(node->name, "tty"); node->internal_id = DEV_TTY; node->write = dev_tty_write; return 0; }
     if (strcmp(subpath, "console") == 0) { strcpy(node->name, "console"); node->internal_id = DEV_CONSOLE; node->write = dev_tty_write; return 0; }
+    if (strcmp(subpath, "full") == 0) { strcpy(node->name, "full"); node->internal_id = DEV_FULL; node->read = dev_full_read; node->write = dev_full_write; return 0; }
+    if (strcmp(subpath, "random") == 0) { strcpy(node->name, "random"); node->internal_id = DEV_RANDOM; node->read = dev_random_read; return 0; }
     return -2;
 }
 

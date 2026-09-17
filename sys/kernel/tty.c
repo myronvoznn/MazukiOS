@@ -1,6 +1,6 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
 #include <stdint.h>
-#include <framebuffer.h>
+#include <drivers/framebuffer.h>
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25

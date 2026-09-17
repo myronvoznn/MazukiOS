@@ -11,6 +11,8 @@ MazukiOS — это независимая операционная систем
 - **Unix sockets**: поддерживается `AF_UNIX` + `SOCK_STREAM` через Linux i386 `socketcall`: bind, listen, connect, accept, send и recv.
 - **Loopback networking**: базовый `AF_INET` + `SOCK_DGRAM` UDP поддерживает bind, connect, sendto и recvfrom для `127.0.0.1`.
 - **QEMU networking**: RTL8139 PCI-драйвер с polling RX/TX, ARP для `10.0.2.15` и простым UDP echo; `make run` подключает QEMU user networking.
+- **QoL devices**: devtmpfs также предоставляет `/dev/full` и `/dev/random`.
+- **Driver layout**: аппаратные драйверы находятся в `sys/kernel/drivers/`, а их интерфейсы подключаются через `<drivers/...h>`.
 - **Инфраструктура**: Это монорепозиторий как и для OS (MazukiOS) так и для ядра **Masix**, .
 
 ---

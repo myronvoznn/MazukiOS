@@ -1,5 +1,5 @@
 /* SPDX-License-Identifier: GPL-2.0-only */
-#include <framebuffer.h>
+#include <drivers/framebuffer.h>
 
 #define FONT_WIDTH 8
 #define FONT_HEIGHT 8

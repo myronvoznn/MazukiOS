@@ -8,7 +8,7 @@
  * the Free Software Foundation; version 2 of the License.
  */
 // Kernel LibK
-#include <vga.h>
+#include <drivers/vga.h>
 #include <alloc.h>
 #include <stdarg.h>
 #include <stdint.h>

@@ -8,8 +8,8 @@
  * the Free Software Foundation; version 2 of the License.
  */
 #include <api.h>
-#include <vga.h>
-#include <keyboard.h>
+#include <drivers/vga.h>
+#include <drivers/keyboard.h>
 #include <alloc.h>
 #include <vfs.h>
 #include <stdint.h>

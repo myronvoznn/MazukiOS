@@ -9,7 +9,7 @@
  */
 #include <stdint.h>
 #include <stddef.h>
-#include <serial.h>
+#include <drivers/serial.h>
 
 typedef struct {
     unsigned char e_ident[16];

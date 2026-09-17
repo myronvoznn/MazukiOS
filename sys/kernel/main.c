@@ -8,14 +8,14 @@
  * the Free Software Foundation; version 2 of the License.
  */
 #include <gdt.h>
-#include <io.h>
+#include <drivers/io.h>
 #include <filesystem.h>
 #include <idt.h>
-#include <pit.h>
+#include <drivers/pit.h>
 #include <panic.h>
-#include <framebuffer.h>
+#include <drivers/framebuffer.h>
 #include <vfs.h>
-#include <network.h>
+#include <drivers/network.h>
 
 #include <stdint.h>
 #include <stddef.h>

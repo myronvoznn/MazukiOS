@@ -7,8 +7,8 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; version 2 of the License.
  */
-#include <pit.h>
-#include <io.h>
+#include <drivers/pit.h>
+#include <drivers/io.h>
 #include <task.h>
 #include <stdint.h>
 
