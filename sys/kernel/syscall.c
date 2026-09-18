@@ -171,7 +171,7 @@ uint32_t syscall_handler_c(struct syscall_regs* regs) {
 
         case MASIX_EXIT_GROUP:
         {
-            puts_com1("SYS: Process called exit_group. Cleaning up...\n");
+            puts_com1("Masix: SYS: Process called exit_group. Cleaning up...\n");
 
             extern void task_destroy(void);
             task_destroy();

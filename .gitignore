@@ -1,6 +1,9 @@
 compile.sh
 push.sh
 commit.sh
+Makefile_cp
+Makefile_original
+configure
 
 junk/*
 clion/*

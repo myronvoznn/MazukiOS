@@ -13,8 +13,6 @@
 #include <drivers/vga.h>
 #include <bsod.h>
 
-// extern void puts_com1(const char* s);
-
 // struct exception_registers {
 //     uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax;
 //     uint32_t int_no, error_code;
@@ -104,7 +102,7 @@ void panic(const char* msg) {
     for (;;) { __asm__ __volatile__("hlt"); }
 }
 
-static __attribute__((naked)) void exception_common_stub(void) {
+__attribute__((naked)) void exception_common_stub(void) {
     __asm__ __volatile__ (
         "pusha \n\t"
         "mov $0x10, %ax \n\t"

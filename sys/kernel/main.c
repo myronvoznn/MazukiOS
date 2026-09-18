@@ -21,8 +21,8 @@
 #include <stddef.h>
 #include <string.h>
 
-uint32_t shell_elf_start = 0;
-uint32_t shell_elf_size = 0;
+uint32_t init_elf_start = 0;
+uint32_t init_elf_size = 0;
 
 extern void printf(const char* fmt, ...);
 extern void tty_write_char(char c);
@@ -117,8 +117,8 @@ void unpack_initramfs(uint32_t archive_start, uint32_t archive_size) {
         }
         // Хардкод имени файла /bin/init
         if (strcmp(filename, "./bin/init") == 0 || strcmp(filename, "bin/init") == 0) {
-            shell_elf_start = (uint32_t)file_data;
-            shell_elf_size = filesize;
+            init_elf_start = (uint32_t)file_data;
+            init_elf_size = filesize;
         }
 
         ptr += data_offset + ((filesize + 3) & ~3);
@@ -265,22 +265,22 @@ void kernel_main(uint32_t magic, uint32_t addr) {
     task_init();
     puts_com1("Masix: Task manager initialized.\n");
 
-    if (shell_elf_start != 0 && shell_elf_size != 0) {
+    if (init_elf_start != 0 && init_elf_size != 0) {
         extern void* elf_load_binary(uint32_t file_start);
-        void* entry_point = elf_load_binary(shell_elf_start);
+        void* entry_point = elf_load_binary(init_elf_start);
 
         if (entry_point != NULL) {
-            puts_com1("Masix: Creating userland task for shell.elf...\n");
+            puts_com1("Masix: Creating userland task for init...\n");
 
             extern void task_create(void* entry_point);
             task_create(entry_point);
 
         } else {
-            puts_com1("CRITICAL: ELF binary loading failed! Halted.\n");
+            puts_com1("Masix: CRITICAL: ELF binary loading failed! Halted.\n");
             for (;;) { asm volatile("hlt"); }
         }
     } else {
-        puts_com1("CRITICAL: shell.elf module not found in multiboot tags! Halted.\n");
+        puts_com1("Masix:CRITICAL: init.elf module not found in multiboot tags! Halted.\n");
         for (;;) { asm volatile("hlt"); }
     }
 

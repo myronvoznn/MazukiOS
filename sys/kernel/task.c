@@ -159,17 +159,17 @@ void task_destroy(void) {
 }
 int32_t task_execve(const char* path, struct syscall_regs* regs) {
     (void)regs;
-    extern uint32_t shell_elf_start;
-    extern uint32_t shell_elf_size;
+    extern uint32_t init_elf_start;
+    extern uint32_t init_elf_size;
 
-    if (shell_elf_start == 0 || shell_elf_size == 0) {
+    if (init_elf_start == 0 || init_elf_size == 0) {
         return -2; // -ENOENT
     }
 
     puts_com1("Masix: sys_execve reloading process image...\n");
 
     extern void* elf_load_binary(uint32_t file_start);
-    void* entry_point = elf_load_binary(shell_elf_start);
+    void* entry_point = elf_load_binary(init_elf_start);
 
     if (entry_point == NULL) {
         return -8; // -ENOEXEC
